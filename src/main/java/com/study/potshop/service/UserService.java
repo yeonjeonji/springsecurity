@@ -13,13 +13,15 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public UsersDto create(UsersDto usersDto) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(usersDto.getUsername());
         userEntity.setEmail(usersDto.getEmail());
-        userEntity.setPassword(usersDto.getPassword());
+        userEntity.setEmail(usersDto.getPassword());
+        userEntity.setPassword(passwordEncoder.encode(usersDto.getPassword()));
+        System.out.println("encoding" + passwordEncoder.encode(usersDto.getPassword()));
         usersDto = UserEntity.toDto(userRepository.save(userEntity));
         return usersDto;
     }
